@@ -1,0 +1,54 @@
+.box-header {
+	display: flex;
+	justify-content: space-between;
+
+	max-width: 75%;
+	// min-width: 550px;
+
+	margin: auto;
+	padding: 10px 20px;
+
+	border: 3px solid hsla(var(--header), 0.7);
+	border-radius: 10px;
+}
+
+.title-box {
+	align-self: center;
+
+	&__title {
+		margin: 0;
+
+		line-height: 0.9;
+		font-size: clamp(1.4rem, 2.5vw, 2rem);
+	}
+}
+
+.box-score {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-self: stretch;
+
+	padding: 10px min(8.5vw, 40px);
+
+	background-color: #fff;
+	border-radius: 10px;
+
+	color: var(--dark);
+	text-align: center;
+
+	&__title,
+	&__value {
+		line-height: 1;
+	}
+
+	&__title {
+		font-size: clamp(0.6rem, 2.5vw, 1rem);
+	}
+
+	&__value {
+		font-size: clamp(2rem, 4.5vw, 3.5rem);
+		font-weight: 700;
+		color: var(--score);
+	}
+}

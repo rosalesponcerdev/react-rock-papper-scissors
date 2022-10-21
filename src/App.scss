@@ -1,0 +1,20 @@
+.App {
+	height: 100%;
+
+	padding-top: 2rem;
+
+	.container {
+		display: grid;
+		grid-template-areas:
+			'papper rock'
+			'scissors scissors';
+		justify-content: center;
+        justify-items: center;
+		gap: 20px 40px;
+
+		width: 100%;
+		max-width: 75%;
+
+		margin: 80px auto auto;
+	}
+}
