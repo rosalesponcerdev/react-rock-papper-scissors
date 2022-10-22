@@ -5,108 +5,69 @@ import BoxHeader from './components/box-header';
 import ActionCircle from './components/action-circle';
 
 import { ICONS_MAP, ICONS_MAP_KEY } from './config/constants/Icons';
-import { SELECT_ACTION } from './config/constants/events';
+import { PLAY_AGAIN, SELECT_ACTION } from './config/constants/EventsNames';
 
 import './App.scss';
 import './assets/scss/global.scss';
 import { getRandomIntegerNumberRange, isLocalWinner } from './core/utils';
-import { LOSE, WIN } from './config/constants/results';
+import { WIN } from './config/constants/results';
+
+import { SecondStep } from './components/second-step';
+import { FirstStep } from './components/first-step';
 
 function App() {
-	const [selectedAction, setSelectedAction] = useState(null);
-	const [selectedComputerAction, setSelectedComputerAction] = useState(null);
-	const [partyResult, setPartyResult] = useState(null);
+	const [partyState, setPartyState] = useState({
+		winner: null,
+		computerAction: null,
+		playerAction: null,
+		score: 0,
+	});
 
 	useEffect(() => {
-		subscribe(SELECT_ACTION, ({ detail: localoption }) => {
-			setSelectedAction(localoption);
-
-			setTimeout(() => {
-				const option = getRandomIntegerNumberRange(1, 3);
-				const keyOption = ICONS_MAP_KEY.get(option);
-
-				const winner = isLocalWinner(localoption, keyOption);
-
-				setPartyResult(winner);
-				setSelectedComputerAction(keyOption);
-			}, 2000);
-		});
+		subscribe(SELECT_ACTION, onSelectAction);
+		subscribe(PLAY_AGAIN, onPlayAgain);
 
 		return () => {
 			unsubcribe(SELECT_ACTION);
+			unsubcribe(PLAY_AGAIN);
 		};
 	}, []);
 
-	const getStep1 = () => {
-		return (
-			<div className='container container--first-step'>
-				{Array.from(ICONS_MAP.values()).map(({ iconPath, alt, id }) => {
-					return (
-						<div
-							key={id}
-							className={`container__circle container__circle--${id}`}>
-							<ActionCircle
-								iconPath={iconPath}
-								alt={alt}
-								id={id}></ActionCircle>
-						</div>
-					);
-				})}
-			</div>
-		);
+	const onPlayAgain = () => {
+		setPartyState((partyState) => ({
+			...partyState,
+			winner: null,
+			computerAction: null,
+			playerAction: null,
+		}));
 	};
 
-	const getWaves = () => {
-		return (
-			<>
-				<div className='waves waves--first'></div>
-				<div className='waves waves--second'></div>
-				<div className='waves waves--thrid'></div>
-			</>
-		);
-	};
+	const onSelectAction = ({ detail: playerAction }) => {
+		const option = getRandomIntegerNumberRange(1, 3);
+		const computerAction = ICONS_MAP_KEY.get(option);
 
-	const getStep2 = () => {
-		return (
-			<div className='container container--second-step second-step'>
-				<div className='second-step__column'>
-					<h2 className='second-step__title'>YOUR PICKED </h2>
+		const winner = isLocalWinner(playerAction, computerAction);
 
-					<div
-						key={ICONS_MAP.get(selectedAction)?.id}
-						className={`second-step--circle container__circle second-step__circle`}>
-						{partyResult === WIN && getWaves()}
-						<ActionCircle
-							iconPath={ICONS_MAP.get(selectedAction)?.iconPath}
-							alt={ICONS_MAP.get(selectedAction)?.alt}
-							id={ICONS_MAP.get(selectedAction)?.id}
-							selectedMode={false}></ActionCircle>
-					</div>
-				</div>
-				<div className='second-step__column'>
-					<h2 className='second-step__title'>THE HOUSE PICKED</h2>
-					<div
-						key={ICONS_MAP.get(selectedComputerAction)?.id}
-						className={`second-step--circle container__circle second-step__circle`}>
-						{partyResult === LOSE && getWaves()}
-						<ActionCircle
-							iconPath={ICONS_MAP.get(selectedComputerAction)?.iconPath}
-							alt={ICONS_MAP.get(selectedComputerAction)?.alt}
-							id={ICONS_MAP.get(selectedComputerAction)?.id}
-							selectedMode={false}></ActionCircle>
-					</div>
-				</div>
-			</div>
-		);
+		setPartyState((partyState) => ({
+			...partyState,
+			winner,
+			computerAction,
+			playerAction,
+			score: winner === WIN ? partyState.score + 1 : partyState.score,
+		}));
 	};
 
 	return (
 		<div className='App'>
 			<div className='container container--header'>
-				<BoxHeader></BoxHeader>
+				<BoxHeader score={partyState.score}></BoxHeader>
 			</div>
 
-			{selectedAction ? getStep2() : getStep1()}
+			{partyState.playerAction ? (
+				<SecondStep partyState={partyState}></SecondStep>
+			) : (
+				<FirstStep></FirstStep>
+			)}
 		</div>
 	);
 }

@@ -1,6 +1,6 @@
 import './style.scss';
 
-const BoxHeader = ({}) => {
+const BoxHeader = ({ score }) => {
 	return (
 		<div className='box-header'>
 			<div className='title-box'>
@@ -11,7 +11,7 @@ const BoxHeader = ({}) => {
 
 			<div className='box-score'>
 				<span className='box-score__title'>SCORE</span>
-				<p className='box-score__value'>12</p>
+				<p className='box-score__value'>{score}</p>
 			</div>
 		</div>
 	);

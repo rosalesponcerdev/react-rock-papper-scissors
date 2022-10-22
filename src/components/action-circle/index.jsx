@@ -1,7 +1,7 @@
 import './styles.scss';
 
 import { emit } from '../../core/utils/events';
-import { SELECT_ACTION } from '../../config/constants/events';
+import { SELECT_ACTION } from '../../config/constants/EventsNames';
 
 const ActionCircle = ({ iconPath, alt, id, selectedMode = true }) => {
 	const selectEventHandler = () => {
