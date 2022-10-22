@@ -1,4 +1,6 @@
 .action-circle {
+	position: relative;
+
 	width: 20vw;
 	height: 20vw;
 
@@ -13,25 +15,32 @@
 
 	overflow: hidden;
 
-	cursor: pointer;
 	user-select: none;
+	z-index: 1;
 
 	-webkit-tap-highlight-color: transparent;
 
+	&--click {
+		cursor: pointer;
+	}
+
 	&--papper {
-		grid-area: papper;
 		background: linear-gradient(var(--papper-gradient));
 	}
 
 	&--rock {
-		grid-area: rock;
-
 		background: linear-gradient(var(--rock-gradient));
 	}
 
 	&--scissor {
-		grid-area: scissors;
 		background: linear-gradient(var(--scissors-gradient));
+	}
+
+	&__hidden {
+		width: 100%;
+		height: 100%;
+		background-color: var(--dark-bar);
+		border-radius: 50%;
 	}
 
 	&__container {
