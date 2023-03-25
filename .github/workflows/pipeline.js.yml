@@ -28,25 +28,5 @@ jobs:
         cache: 'npm'
     - run: npm i
     - run: npm run build --if-present
-    - uses: liquibase-github-actions/init-copy@v4.20.0
-      with:
-        # ProjectCopier object that can be passed in
-        # string
-        # Optional
-        # projectCopier: ""
-
-        # Recursive copy files from the source directory
-        # bool
-        # Optional
-        recursive: "true"
-
-        # Path to the directory where the project files will be created
-        # string
-        # Optional
-        source: "./dist"
-
-        # Source directory where the project files will be copied from
-        # string
-        # Optional
-        target: "/etc/nginx/html/react-rock-papper-scissors"
+    - run: pwd
     
