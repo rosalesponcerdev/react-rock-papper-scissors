@@ -1,0 +1,1 @@
+cp -rf ./dist/* /etc/nginx/html/react-rock-papper-scissors
