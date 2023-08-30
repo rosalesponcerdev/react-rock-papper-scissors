@@ -1,1 +1,1 @@
-cp -rf ./dist/* /etc/nginx/html/react-rock-papper-scissors
+cp -rf ./dist/* /var/www/briefcase/react-rock-papper-scissors
