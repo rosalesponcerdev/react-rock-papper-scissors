@@ -6,7 +6,6 @@
 	"scripts": {
 		"dev": "vite",
 		"predeploy": "yarn run build",
-    
 		"build": "vite build",
 		"preview": "vite preview"
 	},
